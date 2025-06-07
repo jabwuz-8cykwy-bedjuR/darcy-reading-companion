@@ -5,11 +5,11 @@ const OpenAI = require('openai');
 
 const app = express();
 
-// Middleware - Updated CORS to allow both localhost and production
+// Middleware - Updated CORS to allow both localhost and live production
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'https://placeholder.vercel.app',
+    'https://darcy-reading-companion.vercel.app',
     process.env.FRONTEND_URL
   ].filter(Boolean), // Remove any undefined values
   credentials: true
