@@ -1,0 +1,13 @@
+# Never share these files - they contain secrets!
+.env
+node_modules/
+.DS_Store
+dist/
+build/
+
+# API keys and sensitive data
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
