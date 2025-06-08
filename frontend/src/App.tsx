@@ -9,16 +9,53 @@ interface Message {
   sender: 'user' | 'ai' | 'system';
 }
 
+// Dynamic Darcy greeting messages for variety
+const DARCY_GREETINGS = [
+  "Finally, someone to discuss books with! I'm Darcy. Quick question: are you a 'read until 3am' person or a 'sensible chapters before bed' person? And what's got you hooked right now?",
+  
+  "Hey there, fellow book lover! I'm Darcy, and I have zero chill when it comes to fictional characters. What's the last book that completely destroyed you emotionally?",
+  
+  "Oh my gosh, hi! I'm Darcy - your new bookish best friend who will absolutely judge you for dog-earring pages (but in a loving way). What are you reading lately?",
+  
+  "Welcome to my corner of book chaos! I'm Darcy, and fair warning: I WILL cry about character deaths and I'm not sorry. So, what's on your reading list?",
+  
+  "Hello, beautiful book human! I'm Darcy, and I'm basically a walking spoiler alert with strong opinions about everything. What's got your attention right now?",
+  
+  "Hi there! I'm Darcy - part literary critic, part emotional wreck, completely obsessed with good stories. Tell me, what's the last book that kept you up way too late?",
+  
+  "Hey! I'm Darcy, your resident book enthusiast who definitely has too many TBR lists. Are you team physical books, ebooks, or audiobooks? And what's your current obsession?",
+  
+  "Oh, a new reading buddy! I'm Darcy, and I promise to get way too invested in whatever you're reading. Seriously, what's the most recent book that made you question your life choices?",
+  
+  "Hello! I'm Darcy - think of me as that friend who always has book recommendations and strong opinions about adaptations. What brought you here today?",
+  
+  "Hey there! I'm Darcy, professional book overthinker and amateur relationship counselor for fictional characters. What's been living rent-free in your head lately?",
+  
+  "Hi! I'm Darcy, and I'm that person who gets genuinely upset when fictional characters make bad decisions. What's the last book that had you yelling at the pages?",
+  
+  "Oh hello! I'm Darcy - your friendly neighborhood book obsessive who definitely judges people by their bookshelves. What's your current literary guilty pleasure?"
+];
+
+// Function to get a random greeting
+const getRandomGreeting = () => {
+  return DARCY_GREETINGS[Math.floor(Math.random() * DARCY_GREETINGS.length)];
+};
+
 function App() {
   const [activeTab, setActiveTab] = useState<'chat' | 'library'>('chat');
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('darcyMessages');
     if (savedMessages) {
       const parsed = JSON.parse(savedMessages);
-      // Check for old Olive Kitteridge message and replace
-      if (parsed.length === 1 && parsed[0].text.includes("Olive Kitteridge") && parsed[0].text.includes("Let's talk about")) {
+      // Check for old message and replace with random greeting
+      if (parsed.length === 1 && (
+        parsed[0].text.includes("Finally, someone to discuss books") || 
+        parsed[0].text.includes("Olive Kitteridge") ||
+        parsed[0].text.includes("Hey there, fellow book lover") ||
+        parsed[0].text.includes("Oh my gosh, hi!")
+      )) {
         const freshMessage = [{
-          text: "Finally, someone to discuss books with! I'm Darcy. Quick question: are you a 'read until 3am' person or a 'sensible chapters before bed' person? And what's got you hooked right now?",
+          text: getRandomGreeting(),
           sender: 'ai' as const
         }];
         localStorage.setItem('darcyMessages', JSON.stringify(freshMessage));
@@ -27,7 +64,7 @@ function App() {
       return parsed;
     }
     return [{
-      text: "Finally, someone to discuss books with! I'm Darcy. Quick question: are you a 'read until 3am' person or a 'sensible chapters before bed' person? And what's got you hooked right now?",
+      text: getRandomGreeting(),
       sender: 'ai'
     }];
   });
@@ -580,14 +617,14 @@ function App() {
                   <br />
                   <button
                     onClick={() => {
-                      // Switch back to general chat
+                      // Switch back to general chat with random greeting
                       setCurrentBookChat(null);
                       const savedMessages = localStorage.getItem('darcyMessages');
                       if (savedMessages) {
                         setMessages(JSON.parse(savedMessages));
                       } else {
                         setMessages([{
-                          text: "Finally, someone to discuss books with! I'm Darcy. Quick question: are you a 'read until 3am' person or a 'sensible chapters before bed' person? And what's got you hooked right now?",
+                          text: getRandomGreeting(),
                           sender: 'ai'
                         }]);
                       }
